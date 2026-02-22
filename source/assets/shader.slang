@@ -9,7 +9,7 @@ struct VSInput {
     float3 Normal;
 	float2 UV;
 };
-
+[[vk::binding(0, 0)]]
 Sampler2D textures[];
 
 struct ShaderData {

@@ -162,8 +162,8 @@ void CreateSwapchain(VkSwapchainKHR oldSwapchain);
 void CreateDepthImage(uint32_t width, uint32_t height);
 void LoadMeshAndCreateVertexDatas();
 void CreateShaderDataBuffers();
-void InitializeTextures(std::vector<VkDescriptorImageInfo>& textureDesc);
 void CreateSyncObjects();
+void CreateTextures(std::vector<VkDescriptorImageInfo>& textureDesc);
 
 void CreateDescriptorSetLayout();
 void CreateDescriptorSetPool();
@@ -215,7 +215,7 @@ int main(int argc, char* argv[])
 
 
 	std::vector<VkDescriptorImageInfo> textureDescriptors{};
-	InitializeTextures(textureDescriptors);
+	CreateTextures(textureDescriptors);
 	
 	// Initialize Slang shader compiler
 	slang::createGlobalSession(g_SlangGlobalSession.writeRef());
@@ -825,7 +825,7 @@ void CreateShaderDataBuffers()
 	}
 }
 
-void InitializeTextures(std::vector<VkDescriptorImageInfo>& textureDesc)
+void CreateTextures(std::vector<VkDescriptorImageInfo>& textureDesc)
 {
 	// Texture images
 	for (auto i = 0; i < g_Textures.size(); i++)
@@ -845,7 +845,7 @@ void InitializeTextures(std::vector<VkDescriptorImageInfo>& textureDesc)
 			.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
 			.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED
 		};
-
+		
 		VmaAllocationCreateInfo texImageAllocCI
 		{
 			.usage = VMA_MEMORY_USAGE_AUTO
@@ -1013,7 +1013,6 @@ void CreateSyncObjects()
 
 void CreateDescriptorSetLayout()
 {
-	// Descriptor (indexing)
 	VkDescriptorBindingFlags descVariableFlag
 	{
 		VK_DESCRIPTOR_BINDING_VARIABLE_DESCRIPTOR_COUNT_BIT
